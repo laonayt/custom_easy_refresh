@@ -16,6 +16,9 @@ typedef EasyRefreshChildBuilder = Widget Function(
 /// EasyRefresh
 /// 下拉刷新,上拉加载组件
 class EasyRefresh extends StatefulWidget {
+  /// 滚动监听
+  final NotificationListenerCallback onNotification;
+
   /// 控制器
   final EasyRefreshController controller;
 
@@ -105,6 +108,7 @@ class EasyRefresh extends StatefulWidget {
   /// 将child转换为CustomScrollView可用的slivers
   EasyRefresh({
     key,
+    this.onNotification,
     this.controller,
     this.onRefresh,
     this.onLoad,
@@ -137,6 +141,7 @@ class EasyRefresh extends StatefulWidget {
   /// 直接使用CustomScrollView可用的slivers
   EasyRefresh.custom({
     key,
+    this.onNotification,
     this.controller,
     this.onRefresh,
     this.onLoad,
@@ -169,6 +174,7 @@ class EasyRefresh extends StatefulWidget {
   /// 用法灵活,但需将physics、header和footer放入列表中
   EasyRefresh.builder({
     key,
+    this.onNotification,
     this.controller,
     this.onRefresh,
     this.onLoad,
@@ -397,9 +403,7 @@ class _EasyRefreshState extends State<EasyRefresh> {
       listBody = Container();
     }
     return ScrollNotificationListener(
-      onNotification: (notification) {
-        return false;
-      },
+      onNotification: widget.onNotification,
       onFocus: (focus) {
         _focusNotifier.value = focus;
       },
